@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <title>Registro — The Quest ∞ Genesis</title>
+  
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2309f34d'/%3E%3Cstop offset='1' stop-color='%2300c2ff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='120' height='120' rx='24' fill='%23080b10'/%3E%3Cpath d='M30 80 L60 25 L90 80 Z' fill='url(%23g)'/%3E%3Ccircle cx='60' cy='78' r='9' fill='%2300c2ff'/%3E%3C/svg%3E" />
+  <meta property="og:title" content="The Quest ∞ Genesis" />
+  <meta property="og:description" content="Portal TAP, rankings, foro y encuestas — The Quest ∞ Genesis" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2309f34d'/%3E%3Cstop offset='1' stop-color='%2300c2ff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='120' height='120' rx='24' fill='%23080b10'/%3E%3Cpath d='M30 80 L60 25 L90 80 Z' fill='url(%23g)'/%3E%3Ccircle cx='60' cy='78' r='9' fill='%2300c2ff'/%3E%3C/svg%3E" />
+  <meta name="theme-color" content="#070b12" />
+  <link rel="stylesheet" href="css/style.css" />
+
+  
+</head>
+<body>
+  
+  <header class="topbar">
+    <div class="container row">
+      <a class="brand" href="index.html">
+        <span class="mark" aria-hidden="true"></span>
+        <b>The Quest ∞ Genesis</b>
+        <span class="badge">18+</span>
+      </a>
+      <nav class="nav">
+        <a href="index.html">Inicio</a>
+        <a href="register.html">Crear cuenta</a>
+        <a href="login.html">Entrar</a>
+        <a href="tap.html">TAP</a>
+        <a href="rankings.html">Rankings</a>
+        <a href="forum.html">Foro</a>
+        <a href="polls.html">Encuestas</a>
+        <a href="faq.html">FAQ</a>
+        <a href="support.html">Soporte</a>
+        <a href="legal.html">Legal</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container main">
+    
+<section class="card">
+  <h2>Crear cuenta</h2>
+  <div class="grid" style="grid-template-columns:1fr 1fr;gap:16px">
+    <div>
+      <label>Usuario (único)</label><input id="rUser" class="input" maxlength="20">
+      <label>Correo</label><input id="rEmail" class="input" type="email">
+      <label>Contraseña</label><input id="rPass" class="input" type="password">
+      <button class="btn" id="btnReg">Crear cuenta</button>
+      <p class="small">Al registrarte aceptas la edad mínima 18+ y nuestras políticas.</p>
+    </div>
+    <div class="card">
+      <b>¿Ya tienes cuenta?</b><br/><a class="btn ghost" href="login.html">Entrar</a>
+    </div>
+  </div>
+</section>
+<script>
+document.getElementById('btnReg').onclick = ()=>{
+  const name=rUser.value.trim(), email=rEmail.value.trim().toLowerCase(), pass=rPass.value;
+  if(name.length<3||!email||pass.length<6){ toast("Datos inválidos", true); return; }
+  const users=S.get("tq_users",{}); if(users[name]){ toast("Ese usuario ya existe", true); return; }
+  const ref=S.get("tq_last_ref", null);
+  const userId=crypto.getRandomValues(new Uint32Array(4)).join('-');
+  users[name]={ userId, name, email, pass, createdAt:Date.now(), inviterId:(ref||null), coins:500, tapsToday:0, tapsDate:new Date().toDateString(), lastDaily:0, lastAdAt:0, history:[] };
+  S.set("tq_users", users);
+  S.set("tq_session", { userId, name });
+  toast("Registro exitoso"); setTimeout(()=> location.href="tap.html", 300);
+};
+</script>
+
+  </main>
+  
+  <footer class="footer">
+    <small>&copy; <span id="y"></span> The Quest ∞ Genesis • Soporte: <a href="mailto:thequestgameXgnr@gmail.com">thequestgameXgnr@gmail.com</a></small>
+  </footer>
+
+  <div id="toast" class="toast"></div>
+  <script src="js/app.js"></script>
+  
+</body>
+</html>
